@@ -17,34 +17,40 @@
         android:gravity="center" />
 
     <EditText
+        android:id="@+id/username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/username"
         android:layout_below="@id/signin"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
         android:background="#30aaaaaa"
-        android:hint="Username"
-        android:textColor="@color/black"
-        android:layout_margin="20dp"
-        android:padding="20dp"
         android:drawableLeft="@drawable/baseline_person_outline_24"
-        android:drawablePadding="20dp"/>
+        android:drawablePadding="20dp"
+        android:hint="Username"
+        android:padding="20dp"
+        android:textColor="@color/black" />
 
     <EditText
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/password"
-    android:layout_below="@id/username"
-    android:background="#30aaaaaa"
-    android:hint="Password"
-    android:textColor="@color/black"
-    android:layout_margin="20dp"
-    android:padding="20dp"
-    android:drawableLeft="@drawable/baseline_info_24"
-    android:drawablePadding="20dp"
-        android:inputType="textPassword"/>
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/username"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="#30aaaaaa"
+        android:drawableLeft="@drawable/baseline_info_24"
+        android:drawablePadding="20dp"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:padding="20dp"
+        android:textColor="@color/black" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/loginbtn"
+        android:id="@+id/login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/password"
@@ -60,7 +66,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/forgetpass"
-        android:layout_below="@id/loginbtn"
+        android:layout_below="@id/login"
         android:text="Forgot password?"
         android:layout_centerHorizontal="true"
         />
@@ -77,6 +83,21 @@
         android:layout_marginBottom="20dp"
         android:backgroundTint="@color/cardview_dark_background"
         android:text="Don't have an account? Sign up" />
+
+    <ProgressBar
+        android:id="@+id/progressBar4"
+        style="?android:attr/progressBarStyle"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/signupbtn"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="166dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="185dp"
+        android:layout_marginBottom="119dp" />
 
 
 </RelativeLayout>

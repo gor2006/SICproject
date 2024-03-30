@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,9 +21,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+//        ConstraintLayout constraintLayout = findViewById(R.id.example);
+        androidx.constraintlayout.widget.ConstraintLayout constraintLayout = findViewById(R.id.example);
+
+
+
         searchbutton = (ImageButton) findViewById(R.id.imageButton2);
         favoritesbutton = (ImageButton) findViewById(R.id.imageButton3);
         profilebutton = (ImageButton) findViewById(R.id.imageButton4);
+
+
+        constraintLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDescActivity();
+            }
+        });
         searchbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,5 +73,9 @@ public class MainActivity extends AppCompatActivity {
             intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
 
+    }
+    public void openDescActivity(){
+        Intent intent = new Intent(this, DescriptionActivity.class);
+        startActivity(intent);
     }
 }
