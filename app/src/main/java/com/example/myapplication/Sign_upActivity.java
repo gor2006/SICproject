@@ -28,15 +28,15 @@ public class Sign_upActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     ProgressBar progressBar;
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-            openHomeActivity();
-        }
-    }
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        // Check if user is signed in (non-null) and update UI accordingly.
+//        FirebaseUser currentUser = mAuth.getCurrentUser();
+//        if (currentUser != null) {
+//            openHomeActivity();
+//        }
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        searchbutton = (ImageButton) findViewById(R.id.imageButton2);
         favoritesbutton = (ImageButton) findViewById(R.id.imageButton3);
         profilebutton = (ImageButton) findViewById(R.id.imageButton4);
 
@@ -35,12 +34,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 openDescActivity();
-            }
-        });
-        searchbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openSearchActivity();
             }
         });
         favoritesbutton.setOnClickListener(new View.OnClickListener() {
@@ -57,10 +50,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void openSearchActivity(){
-        Intent intent = new Intent(this, SearchActivity.class);
-        startActivity(intent);
-    }
+
     public void openFavoritesActivity(){
         Intent intent = new Intent(this, FavoritesActivity.class);
         startActivity(intent);

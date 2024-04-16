@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">E-du</string>
+
+    <string-array name="options_array">
+        <item>Offline</item>
+        <item>Online</item>
+    </string-array>
 </resources>

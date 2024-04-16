@@ -57,7 +57,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         homebutton = (ImageButton) findViewById(R.id.imageButton);
         favoritesbutton = (ImageButton) findViewById(R.id.imageButton3);
-        searchbutton = (ImageButton) findViewById(R.id.imageButton2);
         Addpostbutton = (Button) findViewById(R.id.addpostbtn);
 
         addimg = (FloatingActionButton) findViewById(R.id.addimg);
@@ -75,12 +74,7 @@ public class ProfileActivity extends AppCompatActivity {
                 openFavoritesActivity();
             }
         });
-        searchbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openSearchActivity();
-            }
-        });
+
         Addpostbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,13 +87,13 @@ public class ProfileActivity extends AppCompatActivity {
         folowersbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openFavoritesActivity();
+                openfollowersActivity();
             }
         });
         folowingbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openFavoritesActivity();
+                openfollowingsActivity();
             }
         });
         addimg.setOnClickListener(new View.OnClickListener() {
@@ -151,8 +145,13 @@ public class ProfileActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
-    public void openSearchActivity(){
-        Intent intent = new Intent(this, SearchActivity.class);
+
+    public void openfollowersActivity(){
+        Intent intent = new Intent(this, followers.class);
+        startActivity(intent);
+    }
+    public void openfollowingsActivity(){
+        Intent intent = new Intent(this, followings.class);
         startActivity(intent);
     }
     public void openFavoritesActivity(){

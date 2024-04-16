@@ -19,7 +19,6 @@ public class FavoritesActivity extends AppCompatActivity {
         setContentView(R.layout.favorites);
 
         homebutton = (ImageButton) findViewById(R.id.imageButton);
-        searchbutton = (ImageButton) findViewById(R.id.imageButton2);
         profilebutton = (ImageButton) findViewById(R.id.imageButton4);
 
         homebutton.setOnClickListener(new View.OnClickListener() {
@@ -28,12 +27,7 @@ public class FavoritesActivity extends AppCompatActivity {
                 openHomeActivity();
             }
         });
-        searchbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openSearchActivity();
-            }
-        });
+
         profilebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,10 +40,7 @@ public class FavoritesActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
-    public void openSearchActivity(){
-        Intent intent = new Intent(this, SearchActivity.class);
-        startActivity(intent);
-    }
+
     public void openProfileActivity(){
         Intent intent;
         if(LoginActivity.log == false){

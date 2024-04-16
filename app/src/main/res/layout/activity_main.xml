@@ -8,6 +8,30 @@
 
 
     <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="51dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="220dp"
+        app:layout_constraintEnd_toStartOf="@+id/editTextText2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/search" />
+
+    <EditText
+        android:id="@+id/editTextText2"
+        android:layout_width="275dp"
+        android:layout_height="57dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="216dp"
+        android:ems="10"
+        android:hint="Search Program"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
         android:id="@+id/imageView"
         android:layout_width="286dp"
         android:layout_height="153dp"
@@ -21,8 +45,8 @@
         android:id="@+id/textView"
         android:layout_width="236dp"
         android:layout_height="75dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="196dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="296dp"
         android:text="Programs and events near Yerevan "
         android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
@@ -55,15 +79,6 @@
             android:src="@drawable/home" />
 
         <ImageButton
-            android:id="@+id/imageButton2"
-            android:layout_width="30sp"
-            android:layout_height="40sp"
-            android:layout_weight="1"
-            android:background="#00FFFFFF"
-            android:scaleType="fitCenter"
-            android:src="@drawable/search" />
-
-        <ImageButton
             android:id="@+id/imageButton3"
             android:layout_width="30sp"
             android:layout_height="40sp"
@@ -86,6 +101,7 @@
         android:id="@+id/example"
         android:layout_width="409dp"
         android:layout_height="167dp"
+        android:layout_marginTop="16dp"
         android:backgroundTint="@color/primarydark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

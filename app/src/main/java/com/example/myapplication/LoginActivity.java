@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -27,18 +30,21 @@ public class LoginActivity extends AppCompatActivity {
     EditText inpEmailLog;
     EditText inpPasswordLog;
     FirebaseAuth mAuth;
-    ProgressBar progressBar;
+
+    TextView forgotpass;
+    boolean passwordvisible;
 
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
-            openSignupActivity();
-        }
-    }
+
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        // Check if user is signed in (non-null) and update UI accordingly.
+//        FirebaseUser currentUser = mAuth.getCurrentUser();
+//        if(currentUser != null){
+//            openSignupActivity();
+//        }
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +54,48 @@ public class LoginActivity extends AppCompatActivity {
         inpEmailLog =  findViewById(R.id.username);
         inpPasswordLog =findViewById(R.id.password);
 
-        signupbtn = (MaterialButton) findViewById(R.id.signupbtn);
-        loginbtn = (MaterialButton) findViewById(R.id.login);
+        inpPasswordLog.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                final int Right = 2;
+                if(event.getAction()==MotionEvent.ACTION_UP){
+                    if(event.getRawX()>=inpPasswordLog.getRight()- inpPasswordLog.getCompoundDrawables()[Right].getBounds().width()){
+                        int selection = inpPasswordLog.getSelectionEnd();
+                        if(passwordvisible){
+                            inpPasswordLog.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.unvisible,0);
+                            inpPasswordLog.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                            passwordvisible=false;
+                        }else{
+                            inpPasswordLog.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.visible,0);
+                            inpPasswordLog.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                            passwordvisible=true;
+                        }
+                        inpPasswordLog.setSelection(selection);
+                        return true;
+                    }
+                }
+
+
+                return false;
+            }
+        });
+
+        signupbtn = findViewById(R.id.signupbtn);
+        loginbtn = findViewById(R.id.login);
 
 
         mAuth = FirebaseAuth.getInstance();
+
+        forgotpass = findViewById(R.id.forgotpass);
+
+        forgotpass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, ResetpassActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
 
 //        loginbtn.setOnClickListener(new View.OnClickListener() {
@@ -91,14 +134,12 @@ public class LoginActivity extends AppCompatActivity {
         loginbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
                 String email, password;
                 email = inpEmailLog.getText().toString().trim();
                 password = inpPasswordLog.getText().toString().trim();
 
                 if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
                     Toast.makeText(LoginActivity.this, "Please fill all the fields", Toast.LENGTH_SHORT).show();
-                    progressBar.setVisibility(View.GONE);
                     return;
                 }
 
@@ -107,15 +148,15 @@ public class LoginActivity extends AppCompatActivity {
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                progressBar.setVisibility(View.GONE);
                                 if (task.isSuccessful()) {
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     if (user.isEmailVerified()) {
                                         Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+                                        log = true;
                                         Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
                                         startActivity(intent);
                                         finish();
-                                    } else {
+                                   } else {
                                         Toast.makeText(LoginActivity.this, "Please verify your email", Toast.LENGTH_SHORT).show();
                                     }
                                 } else {
@@ -123,7 +164,11 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             }
                         });
+//                Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
+//                startActivity(intent);
+//                finish();
             }
+
         });
 
         signupbtn.setOnClickListener(new View.OnClickListener() {
