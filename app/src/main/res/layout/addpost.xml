@@ -82,14 +82,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="27dp"
         android:layout_marginEnd="16dp"
         android:background="#30aaaaaa"
         android:drawableLeft="@drawable/baseline_title_24"
         android:drawablePadding="20dp"
-        android:hint="Title of program"
+        android:hint="Author's name and program's title"
         android:padding="20dp"
         android:textColor="@color/black"
+        android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -184,6 +185,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@tools:sample/avatars"
+        android:scaleType="centerCrop"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

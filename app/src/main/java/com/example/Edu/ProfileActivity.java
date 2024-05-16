@@ -1,9 +1,10 @@
-package com.example.myapplication;
+package com.example.Edu;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -19,8 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private Button folowersbutton;
-    private Button folowingbutton;
+
     private Button Addpostbutton;
     private TextView userNameSurname;
 
@@ -32,6 +32,10 @@ public class ProfileActivity extends AppCompatActivity {
 
     private FloatingActionButton addimg;
     private ImageView imageprofile;
+    private Uri profileImageUri;
+
+
+
 
 
     TextView useremail;
@@ -57,10 +61,12 @@ public class ProfileActivity extends AppCompatActivity {
 
         homebutton = (ImageButton) findViewById(R.id.imageButton);
         favoritesbutton = (ImageButton) findViewById(R.id.imageButton3);
-        Addpostbutton = (Button) findViewById(R.id.addpostbtn);
 
         addimg = (FloatingActionButton) findViewById(R.id.addimg);
         imageprofile= (ImageView) findViewById(R.id.imageprofile);
+
+
+
 
         homebutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,27 +81,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        Addpostbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openAddpostActivity();
-            }
-        });
 
-        folowersbutton = (Button) findViewById(R.id.button);
-        folowingbutton = (Button) findViewById(R.id.button2);
-        folowersbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openfollowersActivity();
-            }
-        });
-        folowingbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openfollowingsActivity();
-            }
-        });
         addimg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,6 +107,24 @@ public class ProfileActivity extends AppCompatActivity {
 
         userNameSurname = findViewById(R.id.namesurname);
 
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        // Retrieve data from SharedPreferences
+        String name = sharedPreferences.getString("name", "");
+        String surname = sharedPreferences.getString("surname", "");
+        String profileImageUriString = sharedPreferences.getString("profileImageUri", "");
+
+        // Concatenate name and surname and set in TextView
+        String fullName = name + " " + surname;
+        userNameSurname.setText(fullName);
+
+        if (!profileImageUriString.isEmpty()) {
+            profileImageUri = Uri.parse(profileImageUriString);
+            imageprofile.setImageURI(profileImageUri);
+        }
+
+
+
+
 
         userNameSurname.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,6 +132,8 @@ public class ProfileActivity extends AppCompatActivity {
                 openEditnameActivity();
             }
         });
+
+
     }
 //    @Override
 //    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
@@ -135,10 +141,7 @@ public class ProfileActivity extends AppCompatActivity {
 //
 //    }
 
-    private void openAddpostActivity(){
-        Intent intent = new Intent(this, AddpostActivity.class);
-        startActivity(intent);
-    }
+
 
 
     public void openHomeActivity(){
@@ -173,14 +176,18 @@ public class ProfileActivity extends AppCompatActivity {
         Uri uri = data.getData();
         imageprofile.setImageURI(uri);
 
-        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
-            // Receive new name and surname from EditProfileActivity
-            String newName = data.getStringExtra("newName");
-            String newSurname = data.getStringExtra("newSurname");
+       SharedPreferences.Editor editor = getSharedPreferences("MyPrefs", MODE_PRIVATE).edit();
+        editor.putString("profileImageUri", uri.toString());
+       editor.apply();
 
-            // Set the text of the TextView with received data
-            String fullName = newName + " " + newSurname;
-            userNameSurname.setText(fullName);
-        }
+//        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
+//            // Receive new name and surname from EditProfileActivity
+//            String newName = data.getStringExtra("newName");
+//            String newSurname = data.getStringExtra("newSurname");
+//
+//            // Set the text of the TextView with received data
+//            String fullName = newName + " " + newSurname;
+//            userNameSurname.setText(fullName);
+//        }
     }
 }

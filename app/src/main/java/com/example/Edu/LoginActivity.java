@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.Edu;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,7 +11,6 @@ import android.text.method.PasswordTransformationMethod;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -153,7 +152,7 @@ public class LoginActivity extends AppCompatActivity {
                                     if (user.isEmailVerified()) {
                                         Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
                                         log = true;
-                                        Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
+                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                         startActivity(intent);
                                         finish();
                                    } else {

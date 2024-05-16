@@ -1,16 +1,14 @@
-package com.example.myapplication;
+package com.example.Edu;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class followers extends AppCompatActivity {
+public class followings extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.followers);
-
-
+        setContentView(R.layout.followings);
     }
 }

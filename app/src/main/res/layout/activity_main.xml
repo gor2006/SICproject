@@ -12,7 +12,7 @@
         android:layout_width="51dp"
         android:layout_height="45dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="220dp"
+        android:layout_marginTop="270dp"
         app:layout_constraintEnd_toStartOf="@+id/editTextText2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -23,7 +23,7 @@
         android:layout_width="275dp"
         android:layout_height="57dp"
         android:layout_marginStart="64dp"
-        android:layout_marginTop="216dp"
+        android:layout_marginTop="260dp"
         android:ems="10"
         android:hint="Search Program"
         android:inputType="text"
@@ -40,19 +40,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/loggg" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="236dp"
-        android:layout_height="75dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="296dp"
-        android:text="Programs and events near Yerevan "
-        android:textSize="25sp"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
 
     <LinearLayout
         android:id="@+id/linearLayout3"
@@ -106,7 +93,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView">
+        app:layout_constraintTop_toBottomOf="@+id/editTextText2">
 
         <ImageView
             android:id="@+id/imageView3"
@@ -175,6 +162,34 @@
             app:layout_constraintStart_toEndOf="@+id/imageView3" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/addpostbtn2"
+        style="@style/Widget.Material3.Button.ElevatedButton"
+        android:layout_width="363dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="32dp"
+        android:background="#4E1616"
+        android:text="+ add post"
+        app:layout_constraintBottom_toTopOf="@+id/editTextText2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="407dp"
+        android:layout_height="162dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/example"
+        app:layout_constraintVertical_bias="0.5" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

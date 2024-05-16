@@ -1,5 +1,6 @@
-package com.example.myapplication;
+package com.example.Edu;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,7 +16,6 @@ import android.provider.MediaStore;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -23,26 +23,38 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.Spinner;
 import android.widget.TimePicker;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AddpostActivity extends AppCompatActivity {
 
     private ImageView profileImageView;
     private Button changeImageButton;
     private Button Add;
+    private EditText date;
+    private EditText offonline;
+    private EditText title;
+    private EditText link;
+    private EditText description;
+    private EditText place;
 
-    private EditText editTextDate;
-
+    FirebaseFirestore db;
 
     private static final int PICK_IMAGE_REQUEST = 1;
 
     private static final int MAP_REQUEST_CODE = 101;
 
-    EditText editText;
+
     PopupWindow popupWindow;
 
 
@@ -51,7 +63,56 @@ public class AddpostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.addpost);
 
-        editText = findViewById(R.id.offon);
+        db=FirebaseFirestore.getInstance();
+        title = findViewById(R.id.username2);
+        date = findViewById(R.id.date);
+        offonline = findViewById(R.id.offon);
+        description = findViewById(R.id.username5);
+        link = findViewById(R.id.username8);
+        place = findViewById(R.id.locationTextView);
+        profileImageView = findViewById(R.id.imageView5);
+        changeImageButton = (Button) findViewById(R.id.upload);
+        Add = (Button) findViewById(R.id.add);
+
+        Add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String Title = title.getText().toString();
+                String Date = date.getText().toString();
+                String Offonline = offonline.getText().toString();
+                String Description = description.getText().toString();
+                String Link = link.getText().toString();
+                String Place = place.getText().toString();
+                Map<String, Object> user = new HashMap<>();
+                user.put("titleAuthor", Title);
+                user.put("date", Date);
+                user.put("offlineOnline", Offonline);
+                user.put("description", Description);
+                user.put("link", Link);
+                user.put("place", Place);
+
+
+                db.collection("user")
+                        .add(user)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                Toast.makeText(AddpostActivity.this, "Successful", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(AddpostActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+
+                openProfileActivity();
+            }
+        });
+
 
         popupWindow = new PopupWindow(this);
         popupWindow.setFocusable(true);
@@ -65,7 +126,7 @@ public class AddpostActivity extends AppCompatActivity {
         ListView listView = new ListView(this);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener((parent, view, position, id) -> {
-            editText.setText(adapter.getItem(position).toString());
+            offonline.setText(adapter.getItem(position).toString());
             popupWindow.dismiss();
         });
 
@@ -78,14 +139,10 @@ public class AddpostActivity extends AppCompatActivity {
 
 
 
-        profileImageView = findViewById(R.id.imageView5);
-        changeImageButton = (Button) findViewById(R.id.upload);
-        Add = (Button) findViewById(R.id.add);
 
-        editTextDate = findViewById(R.id.date);
 
         // Set OnClickListener to the EditText
-        editTextDate.setOnClickListener(new View.OnClickListener() {
+        date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDateTimePickerDialog();
@@ -99,12 +156,7 @@ public class AddpostActivity extends AppCompatActivity {
             }
         });
 
-        Add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openProfileActivity();
-            }
-        });
+
     }
 
     private void showDateTimePickerDialog() {
@@ -139,7 +191,7 @@ public class AddpostActivity extends AppCompatActivity {
 
                                         // Set selected date and time to the EditText
                                         String selectedDateTime = calendar.getTime().toString();
-                                        editTextDate.setText(selectedDateTime);
+                                        date.setText(selectedDateTime);
                                     }
                                 },
                                 hourOfDay, minute, true
@@ -154,8 +206,8 @@ public class AddpostActivity extends AppCompatActivity {
 
     public void showOptionsDialog(View view) {
         int[] location = new int[2];
-        editText.getLocationOnScreen(location);
-        popupWindow.showAtLocation(editText, Gravity.NO_GRAVITY, location[0], location[1] + editText.getHeight());
+        offonline.getLocationOnScreen(location);
+        popupWindow.showAtLocation(offonline, Gravity.NO_GRAVITY, location[0], location[1] + offonline.getHeight());
     }
 
     private void openProfileActivity(){
