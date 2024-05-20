@@ -30,6 +30,9 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
 import java.util.Calendar;
@@ -49,7 +52,10 @@ public class AddpostActivity extends AppCompatActivity {
     private EditText place;
 
     FirebaseFirestore db;
+    FirebaseStorage storage;
+    StorageReference storageReference;
 
+    private Uri imageUri;
     private static final int PICK_IMAGE_REQUEST = 1;
 
     private static final int MAP_REQUEST_CODE = 101;
@@ -64,6 +70,8 @@ public class AddpostActivity extends AppCompatActivity {
         setContentView(R.layout.addpost);
 
         db=FirebaseFirestore.getInstance();
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
         title = findViewById(R.id.username2);
         date = findViewById(R.id.date);
         offonline = findViewById(R.id.offon);
@@ -74,41 +82,53 @@ public class AddpostActivity extends AppCompatActivity {
         changeImageButton = (Button) findViewById(R.id.upload);
         Add = (Button) findViewById(R.id.add);
 
+//        Add.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                String Title = title.getText().toString();
+//                String Date = date.getText().toString();
+//                String Offonline = offonline.getText().toString();
+//                String Description = description.getText().toString();
+//                String Link = link.getText().toString();
+//                String Place = place.getText().toString();
+//                String liked = "no";
+//                Map<String, Object> user = new HashMap<>();
+//                user.put("titleAuthor", Title);
+//                user.put("date", Date);
+//                user.put("offlineOnline", Offonline);
+//                user.put("description", Description);
+//                user.put("link", Link);
+//                user.put("place", Place);
+//                user.put("liked", liked);
+//
+//
+//                db.collection("user")
+//                        .add(user)
+//                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                            @Override
+//                            public void onSuccess(DocumentReference documentReference) {
+//                                Toast.makeText(AddpostActivity.this, "Successful", Toast.LENGTH_SHORT).show();
+//                            }
+//                        })
+//                        .addOnFailureListener(new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception e) {
+//                                Toast.makeText(AddpostActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+//                            }
+//                        });
+//
+//
+//                openProfileActivity();
+//            }
+//        });
+
+
+
         Add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                String Title = title.getText().toString();
-                String Date = date.getText().toString();
-                String Offonline = offonline.getText().toString();
-                String Description = description.getText().toString();
-                String Link = link.getText().toString();
-                String Place = place.getText().toString();
-                Map<String, Object> user = new HashMap<>();
-                user.put("titleAuthor", Title);
-                user.put("date", Date);
-                user.put("offlineOnline", Offonline);
-                user.put("description", Description);
-                user.put("link", Link);
-                user.put("place", Place);
-
-
-                db.collection("user")
-                        .add(user)
-                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                            @Override
-                            public void onSuccess(DocumentReference documentReference) {
-                                Toast.makeText(AddpostActivity.this, "Successful", Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(AddpostActivity.this, "Failed", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-
-
+                uploadImage();
                 openProfileActivity();
             }
         });
@@ -157,6 +177,70 @@ public class AddpostActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    private void savePostData(String imageUrl) {
+        String Title = title.getText().toString();
+        String Date = date.getText().toString();
+        String Offonline = offonline.getText().toString();
+        String Description = description.getText().toString();
+        String Link = link.getText().toString();
+        String Place = place.getText().toString();
+        String liked = "no";
+
+        Map<String, Object> user = new HashMap<>();
+        user.put("titleAuthor", Title);
+        user.put("date", Date);
+        user.put("offlineOnline", Offonline);
+        user.put("description", Description);
+        user.put("link", Link);
+        user.put("place", Place);
+        user.put("liked", liked);
+        if (imageUrl != null) {
+            user.put("imageUrl", imageUrl);
+        }
+
+        db.collection("user")
+                .add(user)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Toast.makeText(AddpostActivity.this, "Post added successfully", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(AddpostActivity.this, "Failed to add post", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void uploadImage() {
+        if (imageUri != null) {
+            StorageReference ref = storageReference.child("images/" + System.currentTimeMillis());
+            ref.putFile(imageUri)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    savePostData(uri.toString());
+                                }
+                            });
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(AddpostActivity.this, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        } else {
+            savePostData(null);
+        }
     }
 
     private void showDateTimePickerDialog() {
@@ -211,7 +295,7 @@ public class AddpostActivity extends AppCompatActivity {
     }
 
     private void openProfileActivity(){
-        Intent intent = new Intent(this, ProfileActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 

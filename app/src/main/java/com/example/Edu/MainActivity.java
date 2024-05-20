@@ -6,11 +6,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.SearchView;
 
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
@@ -29,6 +31,8 @@ public class MainActivity extends AppCompatActivity
     private ImageButton profilebutton;
 
     private Button Addpostbutton;
+    private SearchView searchView;
+
 
 
 
@@ -51,7 +55,21 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        searchView = findViewById(R.id.searchView);
 
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filter(newText);
+                return false;
+            }
+        });
 
        recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -69,7 +87,7 @@ public class MainActivity extends AppCompatActivity
 
 
 //        ConstraintLayout constraintLayout = findViewById(R.id.example);
-        androidx.constraintlayout.widget.ConstraintLayout constraintLayout = findViewById(R.id.example);
+//        androidx.constraintlayout.widget.ConstraintLayout constraintLayout = findViewById(R.id.example);
 
 
 
@@ -86,12 +104,12 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        constraintLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openDescActivity();
-            }
-        });
+//        constraintLayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                openDescActivity();
+//            }
+//        });
         favoritesbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,8 +144,13 @@ public class MainActivity extends AppCompatActivity
                         for (DocumentChange dc: value.getDocumentChanges()){
 
                             if(dc.getType() == DocumentChange.Type.ADDED)
+                            {
+                                User user = dc.getDocument().toObject(User.class);
+                                user.setId(dc.getDocument().getId());  // Set the document ID
+                                userArrayList.add(user);
+                            }
 
-                                userArrayList.add(dc.getDocument().toObject(User.class));
+                                //userArrayList.add(dc.getDocument().toObject(User.class));
 
                         }
 
@@ -137,16 +160,36 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    private void filter(String text) {
+        ArrayList<User> filteredList = new ArrayList<>();
+        for (User user : userArrayList) {
+            if (user.getTitleAuthor().toLowerCase().contains(text.toLowerCase())) {
+                filteredList.add(user);
+            }
+        }
+        myAdapter.filterList(filteredList);
+    }
+
     public void openFavoritesActivity(){
         Intent intent = new Intent(this, FavoritesActivity.class);
         startActivity(intent);
     }
     public void openProfileActivity(){
+//        Intent intent;
+//        if(LoginActivity.log == false){
+//            intent = new Intent(this, LoginActivity.class);
+//        }else
+//            intent = new Intent(this, ProfileActivity.class);
+//        startActivity(intent);
+        SharedPreferences sharedPreferences = getSharedPreferences(LoginActivity.PREFS_NAME, MODE_PRIVATE);
+        boolean isLoggedIn = sharedPreferences.getBoolean(LoginActivity.KEY_LOGGED_IN, true);
+
         Intent intent;
-        if(LoginActivity.log == false){
+        if (!isLoggedIn) {
             intent = new Intent(this, LoginActivity.class);
-        }else
+        } else {
             intent = new Intent(this, ProfileActivity.class);
+        }
         startActivity(intent);
 
     }
