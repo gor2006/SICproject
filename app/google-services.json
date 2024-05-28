@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "707339317805",
+    "project_id": "login-register-firebasecampus",
+    "storage_bucket": "login-register-firebasecampus.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:707339317805:android:38ff4307440c3388edbea4",
+        "android_client_info": {
+          "package_name": "com.example.Edu"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLmthmvbTg7m-4uPZy9hyvS0JRGiFnSrA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
